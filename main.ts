@@ -4,8 +4,8 @@ input.onButtonPressed(Button.A, function () {
     gameOver = false
     basic.clearScreen()
 })
-let attempt = 0
 let gameOver = false
+let attempt = 0
 // Nastavení Pinu
 pins.setPull(DigitalPin.P8, PinPullMode.PullNone)
 pins.setPull(DigitalPin.P12, PinPullMode.PullNone)
@@ -16,32 +16,32 @@ let player2: Number = pins.digitalReadPin(playerPin2)
 // Nahodný čas
 let randomNumber = Math.floor(Math.random() * 6)
 let time = [
-    100,
-    200,
-    500,
-    1000,
-    2000
+100,
+200,
+500,
+1000,
+2000
 ]
 let gameTime = time[randomNumber]
 basic.forever(function () {
     player1 = pins.digitalReadPin(playerPin)
-    player2 = pins.digitalReadPin(playerPin2)
-    if (gameOver == true) {
+player2 = pins.digitalReadPin(playerPin2)
+if (gameOver == true) {
         gameOver = false
-        basic.pause(3000)
+        basic.pause(1000)
     }
-    while (attempt > 5 && gameOver != true) {
-
-        if (player1 < 1) {
+    while (attempt < 5 && gameOver != true) {
+        if (player1 < 1 && player2 < 1) {
             basic.showLeds(`
-                . . # . .
-                . # . # .
-                . # . # .
-                . # # # .
-                . # . # .
+                . . # # .
+                . # . . .
+                . # . . .
+                . # . . .
+                . . # # .
                 `)
-            attempt++
+            attempt += 1
             gameOver = true
+
         } else if (player2 < 1) {
             basic.showLeds(`
                 . # # . .
@@ -50,24 +50,25 @@ basic.forever(function () {
                 . # . # .
                 . # # . .
                 `)
-            attempt++
+            attempt += 1
             gameOver = true
-        } else if (player1 < 1 && player2 < 1) {
+        } else if (player1 < 1) {
+            
             basic.showLeds(`
-                . . # # .
-                . # . . .
-                . # . . .
-                . # . . .
-                . . # # .
+                . . # . .
+                . # . # .
+                . # . # .
+                . # # # .
+                . # . # .
                 `)
-            attempt++
+            attempt += 1
             gameOver = true
         } else {
             basic.pause(gameTime)
             music.playTone(262, music.beat(BeatFraction.Whole))
             player1 = pins.digitalReadPin(playerPin)
-            player2 = pins.digitalReadPin(playerPin2)
-            basic.pause(500)
+player2 = pins.digitalReadPin(playerPin2)
+basic.pause(500)
             if (player1 == player2) {
                 basic.showLeds(`
                     . # # . .
@@ -76,7 +77,7 @@ basic.forever(function () {
                     . # . # .
                     . # . . #
                     `)
-                attempt++
+                attempt += 1
                 gameOver = true
             } else if (player1 < player2) {
                 basic.showLeds(`
@@ -86,7 +87,7 @@ basic.forever(function () {
                     # . . . #
                     # . . . #
                     `)
-                attempt++
+                attempt += 1
                 gameOver = true
             } else if (player2 < player1) {
                 basic.showLeds(`
@@ -96,7 +97,7 @@ basic.forever(function () {
                     # . # . .
                     # . # # #
                     `)
-                attempt++
+                attempt += 1
                 gameOver = true
             }
         }
